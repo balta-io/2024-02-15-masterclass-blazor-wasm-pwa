@@ -1,0 +1,56 @@
+﻿@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+@if (AppState.History.Count == 0)
+{
+    <p>
+        <em>Nenhum resultado encontrado...</em>
+    </p>
+}
+else
+{
+    <ul class="list-unstyled">
+        @foreach (var item in AppState.History)
+        {
+            <li>
+                <div class="list-item">
+                    <div class="list-item-image">
+                        <ImcNumber Number="@item.Imc" />
+                    </div>
+                    <div class="list-item-description">
+                        <div class="list-item-description-title">
+                            <ImcTitle Number="@item.Imc" />
+                            <ImcDate CreatedAt="@item.CreatedAt" />
+                        </div>
+                        <div class="list-item-description-text">
+                            <span>
+                                @item.Height metros de altura e @item.Weight kilos de peso.
+                            </span>
+                        </div >
+                    </div >
+                </div >
+            </li>
+        }
+    </ul>
+}
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        AppState.OnChanged += OnAppStateChanged;
+        var data = await LocalStorage.GetItemAsync<List<ImcModel>?>("data");
+        if (data is not null)
+            AppState.History = data;
+    }
+    
+    void Dispose()
+    {
+        AppState.OnChanged -= OnAppStateChanged;
+    }
+
+    private void OnAppStateChanged(object? o, EventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+}

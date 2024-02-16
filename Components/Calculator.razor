@@ -1,0 +1,75 @@
+﻿@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<EditForm Model="@_model" OnValidSubmit="@OnValidSubmitAsync">
+    <DataAnnotationsValidator/>
+
+    <div class="mb">
+        <InputNumber
+            @bind-Value="_model.Height"
+            class="form-input"
+            type="number"
+            step="0.01"
+            placeholder="Altura"/>
+        <span class="form-input-invalid">
+            <ValidationMessage For="@(() => _model.Height)"/>
+        </span>
+    </div>
+
+    <div class="mb">
+        <InputNumber @bind-Value="_model.Weight" class="form-input" type="number" step="0.1" placeholder="Peso"/>
+        <span class="form-input-invalid">
+            <ValidationMessage For="@(() => _model.Weight)"/>
+        </span>
+    </div>
+
+    <div class="flex flex-center">
+        <button type="submit" class="btn btn-filled btn-auto mb">
+            Calcular meu IMC
+        </button>
+        <a class="btn btn-link" href="#about">
+            Entenda o cálculo
+        </a>
+    </div>
+
+</EditForm>
+
+<Dialog @ref="_dialog" OnModalCloseCallback="@OnModalClose">
+    @if (_model.Imc < 18.6)
+    {
+        <h1>Abaixo do peso ⚠️</h1>
+        <p>Você está abaixo do peso indicado, siga as recomendações do seu nutricionista para chegar lá.</p>
+    }
+    else if (_model.Imc >= 18.6 && _model.Imc <= 24.9)
+    {
+        <h1>Peso ideal ✅</h1>
+        <p>Parabéns! Você está na faixa de peso ideal, continue assim.</p>
+    }
+    else if (_model.Imc >= 24.9)
+    {
+        <h1>Sobrepeso 🔴</h1>
+        <p>Você está acima do peso indicado, siga as recomendações do seu nutricionista para chegar lá.</p>
+    }
+</Dialog>
+
+@code {
+
+    private Dialog _dialog = null!;
+    private ImcModel _model = new();
+
+    public async Task OnValidSubmitAsync()
+    {
+        await ShowModalAsync();
+    }
+
+    private Task ShowModalAsync()
+        => _dialog.ShowModalAsync();
+
+    private async Task OnModalClose()
+    {
+        AppState.History.Add(_model);
+        await LocalStorage.SetItemAsync("data", AppState.History);
+        AppState.NotifyChanges(_model, null);
+        _model = new();
+    }
+
+}

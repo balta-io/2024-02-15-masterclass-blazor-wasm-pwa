@@ -1,0 +1,54 @@
+﻿dialog {
+    border: none;
+    background-color: transparent;
+    width: 90%;
+    animation: opacity 1s;
+}
+
+.dialog-content {
+    border-radius: 16px;
+    width: 90%;
+    height: 320px;
+    background-color: #FFFFFF;
+    margin: auto;
+    text-align: center;
+    padding: 60px 16px 16px 16px;
+}
+
+.dialog-content p {
+    font-size: 18px;
+}
+
+.dialog-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-icon {
+    padding: 16px;
+    background-color: #FFFFFF;
+    border: 8px solid #45FEFE;
+    border-radius: 32px;
+    width: 95px;
+    height: 95px;
+    position: relative;
+    margin: auto;
+    top: 50px;
+}
+
+::backdrop {
+    background-color: #2E1462;
+    animation: opacity .5s;
+}
+
+@keyframes opacity {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

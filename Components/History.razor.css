@@ -1,0 +1,43 @@
+﻿/* Listas */
+.list-unstyled {
+    list-style: none;
+}
+
+.list-item {
+    width: 100%;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: row;
+}
+
+.list-item-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-item-image img {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+}
+
+.list-item-description {
+    text-align: left;
+}
+
+.list-item-description-title {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0 16px 0 16px;
+}
+
+.list-item-description-title h4 {
+    margin: 0;
+}
+
+.list-item-description-text {
+    padding: 0 16px 16px 16px;
+    border-bottom: 1px solid #E8E8E8;
+}

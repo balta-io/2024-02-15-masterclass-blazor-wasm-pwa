@@ -1,0 +1,15 @@
+﻿<div class="slide" id="@Id">
+    @ChildContent
+</div>
+
+@code {
+
+    [EditorRequired]
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+
+}

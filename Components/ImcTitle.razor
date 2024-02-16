@@ -1,0 +1,16 @@
+﻿@if (Number < 18.6)
+{
+    <h4>Abaixo ⚠️</h4>
+}
+else if (Number >= 18.6 && Number <= 24.9)
+{
+    <h4>Ideal ✅</h4>
+}
+else if (Number >= 24.9)
+{
+    <h4>Sobrepeso 🔴</h4>
+}
+
+@code {
+    [Parameter] [EditorRequired] public double Number { get; set; }
+}

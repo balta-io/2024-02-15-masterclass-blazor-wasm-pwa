@@ -1,0 +1,35 @@
+﻿@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+
+<dialog id="result-dialog">
+    <div class="dialog-content">
+        @ChildContent
+        <br>
+        <button @onclick="HideModalAsync" class="btn btn-filled btn-auto mb">
+            Registrar IMC
+        </button>
+    </div>
+</dialog>
+
+@code {
+    [EditorRequired] 
+    [Parameter] 
+    public RenderFragment ChildContent { get; set; } = null!;
+    
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnModalCloseCallback { get; set; }
+
+    public async Task ShowModalAsync()
+    {
+        await JsRuntime.InvokeVoidAsync("showModal", "result-dialog");
+        StateHasChanged();
+    }
+
+    private async Task HideModalAsync()
+    {
+        await JsRuntime.InvokeVoidAsync("hideModal", "result-dialog");
+        StateHasChanged();
+        NavigationManager.NavigateTo("#history");
+        await OnModalCloseCallback.InvokeAsync();
+    }
+}
